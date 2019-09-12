@@ -2,6 +2,7 @@ package com.amer.demo.dal.dao;
 
 import com.amer.demo.DemoApplication;
 import com.amer.demo.dal.entity.Cource;
+import com.amer.demo.dal.entity.Review;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,6 +13,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = DemoApplication.class)
 public class CourceDaoTest {
@@ -21,31 +25,23 @@ public class CourceDaoTest {
 	@Autowired
 	CourceDao courceDao;
 
+	@Autowired
+	EntityManager em;
+
+
 	@Test
-	public void findByIDTest() {
+	@Transactional
+	public void getReviewsForCource()
+	{
 		Cource cource = courceDao.findByID(1001L);
-		Assert.assertEquals("Hibernate" , cource.getName());
-		logger.info("Running Test Now");
+		logger.info("Cource Reviews are -> {}" , cource.getReviews());
 	}
 
 	@Test
-	@DirtiesContext
-	public void deleteByIDTest() {
-		courceDao.deleteByID(1002L);
-		Assert.assertNull(courceDao.findByID(1002L));
-	}
-
-	@Test
-	public void saveCourceTest()
+	//@Transactional
+	public void getCourceForReview()
 	{
-		Cource cource = courceDao.saveOrupdateCource(new Cource("hhhhhh"));
-		Assert.assertEquals("hhhhhh" , cource.getName());
-	}
-
-	@Test
-	@DirtiesContext
-	public void playWithEntityManagerTest()
-	{
-		courceDao.playWithEntityManager();
+		Review review = em.find(Review.class,50001L);
+		logger.info("Cource Reviews are -> {}" , review.getCource());
 	}
 }
