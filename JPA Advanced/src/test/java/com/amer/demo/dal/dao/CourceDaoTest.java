@@ -30,7 +30,7 @@ public class CourceDaoTest {
 
 
 	@Test
-	@Transactional
+	//@Transactional
 	public void getReviewsForCource()
 	{
 		Cource cource = courceDao.findByID(1001L);

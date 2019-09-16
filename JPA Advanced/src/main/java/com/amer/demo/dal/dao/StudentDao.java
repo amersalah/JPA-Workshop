@@ -1,6 +1,7 @@
 package com.amer.demo.dal.dao;
 
 import com.amer.demo.dal.entity.Cource;
+import com.amer.demo.dal.entity.Student;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +19,16 @@ public class StudentDao {
 
     Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    public void saveStudentandPassport()
+    public void insertStudentAndCource()
     {
+        Student student = new Student("Ahmed Adel");
+        Cource cource = new Cource("Flutter");
 
+        entityManager.persist(cource);
+        entityManager.persist(student);
+
+        student.addCources(cource);
+        cource.addStudents(student);
+        entityManager.persist(student);
     }
-
 }
